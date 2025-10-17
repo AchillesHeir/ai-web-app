@@ -29,5 +29,9 @@ specs/
 *.spec.md
 *.prompt.md
 
+# GEMINI
+GEMINI*.md
+
+
 # ENV
 .env*
