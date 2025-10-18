@@ -1,50 +1,46 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+    Sync Impact Report:
+    - Version change: 0.0.0 -> 1.0.0
+    - List of modified principles:
+        - [PRINCIPLE_1_NAME] -> I. Clean and Modular Code
+        - [PRINCIPLE_2_NAME] -> II. React.js Best Practices
+        - [PRINCIPLE_3_NAME] -> III. Express.js Best Practices
+        - [PRINCIPLE_4_NAME] -> IV. TypeScript Best Practices
+        - [PRINCIPLE_5_NAME] -> V. TBD
+    - Added sections: None
+    - Removed sections: None
+    - Templates requiring updates:
+        - ✅ .specify/templates/plan-template.md
+        - ✅ .specify/templates/spec-template.md
+        - ✅ .specify/templates/tasks-template.md
+        - ✅ README.md
+    - Follow-up TODOs:
+        - TODO(RATIFICATION_DATE): Set the initial ratification date.
+-->
+# ai-web-app Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Clean and Modular Code
+Code should be written in a way that is easy to read, understand, and maintain. Components should be broken down into small, reusable modules.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. React.js Best Practices
+Follow established best practices for React.js development, including component composition, state management, and hooks.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Express.js Best Practices
+Adhere to best practices for building APIs with Express.js, including routing, middleware, and error handling.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. TypeScript Best Practices
+Utilize TypeScript to its full potential by using strong typing, interfaces, and generics to create robust and maintainable code.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. TBD
+This principle is yet to be defined.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Development Workflow
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+The development workflow should follow standard Git practices, including feature branches, pull requests, and code reviews.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+This constitution is the single source of truth for project standards. All code contributions must adhere to the principles outlined in this document.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): Set the initial ratification date. | **Last Amended**: 2025-10-17
