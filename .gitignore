@@ -28,9 +28,13 @@ dist-ssr
 specs/
 *.spec.md
 *.prompt.md
+.specify
+
+
 
 # GEMINI
 GEMINI*.md
+.gemini/
 
 
 # ENV
