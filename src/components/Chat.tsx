@@ -44,15 +44,17 @@ const personalities: Personality[] = [
 interface ChatProps {
   initialHistory?: MessageType[];
   selectedChatId?: string | null;
+  onHistoryChange?: (h: MessageType[]) => void;
 }
 
-const Chat: React.FC<ChatProps> = ({ initialHistory = [] }) => {
+const Chat: React.FC<ChatProps> = ({
+  initialHistory = [],
+  onHistoryChange,
+}) => {
   const [history, setHistory] = useState<MessageType[]>(initialHistory);
   const [input, setInput] = useState('');
   const [personality, setPersonality] = useState(personalities[0].name);
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState('');
-  // const [isSelected, setIsSelected] = useState(false);
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ const Chat: React.FC<ChatProps> = ({ initialHistory = [] }) => {
   useEffect(() => {
     // when initialHistory prop changes, load it
     setHistory(initialHistory);
+    onHistoryChange && onHistoryChange(initialHistory);
   }, [initialHistory]);
 
   const handleSend = async () => {
@@ -87,59 +90,38 @@ const Chat: React.FC<ChatProps> = ({ initialHistory = [] }) => {
       });
       const data = await aiResponse.json();
 
-      //     const results = await fetch('http://localhost:3001/api/movies');
-      // const data = await results.json();
       const assistantMessage: MessageType = {
         role: 'assistant',
         content: data.data,
       };
       setHistory([...newHistory, assistantMessage]);
+      onHistoryChange && onHistoryChange([...newHistory, assistantMessage]);
       setIsLoading(false);
     } catch (error) {
-      // setError(error)
       console.error(error);
       setIsLoading(false);
       return;
     }
   };
 
-  const handleClear = () => {
-    setHistory([]);
-  };
-
   return (
     <div className='app-container'>
       <div className='controls'>
+        <h1>Choose a Friend: </h1>
         <PersonalitySelector
           personalities={personalities}
           selectedPersonality={personality}
           onPersonalityChange={setPersonality}
         />
-        {/* {personalities.map((person) => (
-          <button
-            key={person.name}
-            className={`personality-card ${isSelected ? 'selected' : ''}`}
-            onClick={() => setPersonality(person)}
-          >
-            <img
-              src={person.image}
-              alt={person.name}
-              className='personality-image'
-            />
-            <div>{person.name}</div>
-          </button>
-        ))} */}
       </div>
       <div className='chat-window' ref={chatWindowRef}>
         {history.map((message, index) => (
           <Message key={index} message={message} />
         ))}
         {isLoading && <div className='message assistant'>Thinking...</div>}
-        {/* {error && <div>{error}</div>} */}
       </div>
       <div className='input-area'>
-        <input
-          type='text'
+        <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
@@ -148,9 +130,6 @@ const Chat: React.FC<ChatProps> = ({ initialHistory = [] }) => {
         />
         <button className='send-btn' onClick={handleSend} disabled={isLoading}>
           Send
-        </button>
-        <button className='clear-btn' onClick={handleClear}>
-          Clear Chat
         </button>
       </div>
     </div>

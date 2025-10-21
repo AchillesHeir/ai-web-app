@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# AI Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal React + TypeScript + Vite frontend with a small Express mock backend.
 
-Currently, two official plugins are available:
+## Quick setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Install dependencies
 
-## React Compiler
-
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Start frontend (Vite)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+3. Start backend (Express)
+
+```bash
+npm run server
+```
+
+Open the frontend URL shown by Vite (usually http://localhost:5173). The frontend talks to the backend at http://localhost:3001 by default.
+
+## Features
+
+- Chat UI with message history and personality selector.
+- Sidebar with saved chats; click to load a saved chat.
+- Create/update saved chats (POST/PUT to the mock backend).
+- Delete saved chats from the sidebar.
+- Edit saved chat title inline from the sidebar three-dot menu.
+
+## Backend (mock)
+
+- Data stored in `src/backend/data/chats.json` (file-based mock DB).
+- Endpoints:
+  - `POST /api/chat` — get AI response for a conversation (requires GEMINI_API_KEY for real API calls)
+  - `GET /api/pastChats`
+  - `GET /api/pastChats/:id`
+  - `POST /api/saveChat` (expects an `id` in payload)
+  - `PUT /api/pastChats/:id`
+  - `DELETE /api/pastChats/:id`
+
+## Development notes
+
+- The frontend and backend run separately in development; open two terminals and run the commands above.
+- If API requests return HTML (index page) instead of JSON, confirm the backend is running and fetch URLs point at the correct host/port.
+
+## Stretch ideas
+
+- Move id generation to the server and return server-generated IDs on creation.
+- Persist the in-progress chat to `localStorage` so it survives reloads.
+- Add authentication so saved chats are per-user.
+- Improve accessibility (keyboard navigation for dropdowns, ARIA labels).
+- Add unit/integration tests (Vitest + Testing Library for frontend, small test harness for backend).
+- Better styling and responsive UX (animations, improved card layout, dark mode).
