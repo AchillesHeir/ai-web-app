@@ -46,7 +46,7 @@ export const getAIResponse = async (
         body: JSON.stringify({
           contents: contents,
           generationConfig: {
-            temperature: 0.7,
+            temperature: 0.4,
             maxOutputTokens: 1000,
           },
         }),

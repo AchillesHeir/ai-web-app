@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "title": "Sample chat",
+    "messages": [
+      { "role": "user", "content": "Hello" },
+      { "role": "assistant", "content": "Hi there! How can I help?" }
+    ],
+    "pesonality": "Vanilla Gemini",
+    "createdAt": "2025-10-20T00:00:00.000Z"
+  }
+]

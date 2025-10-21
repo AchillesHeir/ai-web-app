@@ -3,20 +3,56 @@ import type { Message as MessageType } from '../backend/services/api';
 import Message from './Message';
 import PersonalitySelector from './PersonalitySelector';
 
-const personalities = [
-  'Duchess Delphinia',
-  'Cal',
-  'Tiffany',
-  'R2D3',
-  'Stan the Grey',
+interface Personality {
+  name: string;
+  image: string;
+}
+
+const personalities: Personality[] = [
+  {
+    name: 'Vanilla Gemini',
+    image:
+      'https://res.cloudinary.com/dnawvnj8p/image/upload/v1761004254/ai_tvbcyh.png',
+  },
+  {
+    name: 'Duchess Delphinia',
+    image:
+      'https://res.cloudinary.com/dnawvnj8p/image/upload/v1761003762/queen_kcmemb.png',
+  },
+  {
+    name: 'Cal',
+    image:
+      'https://res.cloudinary.com/dnawvnj8p/image/upload/v1761003313/surfer_dfuzbs.png',
+  },
+  {
+    name: 'Tiffany',
+    image:
+      'https://res.cloudinary.com/dnawvnj8p/image/upload/v1761004305/optimist_vvrcsp.png',
+  },
+  {
+    name: 'R2D3',
+    image:
+      'https://res.cloudinary.com/dnawvnj8p/image/upload/v1761004233/robot_wapatf.png',
+  },
+  {
+    name: 'Stan the Grey',
+    image:
+      'https://res.cloudinary.com/dnawvnj8p/image/upload/v1761004323/wizard_nrxkdx.png',
+  },
 ];
 
-const Chat: React.FC = () => {
-  const [history, setHistory] = useState<MessageType[]>([]);
+interface ChatProps {
+  initialHistory?: MessageType[];
+  selectedChatId?: string | null;
+}
+
+const Chat: React.FC<ChatProps> = ({ initialHistory = [] }) => {
+  const [history, setHistory] = useState<MessageType[]>(initialHistory);
   const [input, setInput] = useState('');
-  const [personality, setPersonality] = useState(personalities[0]);
+  const [personality, setPersonality] = useState(personalities[0].name);
   const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState('');
+  // const [isSelected, setIsSelected] = useState(false);
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,6 +60,11 @@ const Chat: React.FC = () => {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [history]);
+
+  useEffect(() => {
+    // when initialHistory prop changes, load it
+    setHistory(initialHistory);
+  }, [initialHistory]);
 
   const handleSend = async () => {
     if (input.trim() === '') return;
@@ -74,7 +115,20 @@ const Chat: React.FC = () => {
           selectedPersonality={personality}
           onPersonalityChange={setPersonality}
         />
-        <button onClick={handleClear}>Clear Chat</button>
+        {/* {personalities.map((person) => (
+          <button
+            key={person.name}
+            className={`personality-card ${isSelected ? 'selected' : ''}`}
+            onClick={() => setPersonality(person)}
+          >
+            <img
+              src={person.image}
+              alt={person.name}
+              className='personality-image'
+            />
+            <div>{person.name}</div>
+          </button>
+        ))} */}
       </div>
       <div className='chat-window' ref={chatWindowRef}>
         {history.map((message, index) => (
@@ -88,12 +142,15 @@ const Chat: React.FC = () => {
           type='text'
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           placeholder='Type your message...'
           disabled={isLoading}
         />
-        <button onClick={handleSend} disabled={isLoading}>
+        <button className='send-btn' onClick={handleSend} disabled={isLoading}>
           Send
+        </button>
+        <button className='clear-btn' onClick={handleClear}>
+          Clear Chat
         </button>
       </div>
     </div>

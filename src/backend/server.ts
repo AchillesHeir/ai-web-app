@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 // import type { Message } from './services/api';
 import { getAIResponse } from './services/api';
+import mockDb from './mockDb';
 import type { Request, Response } from 'express';
 
 dotenv.config();
@@ -31,6 +32,70 @@ app.post('/api/chat', async (req: Request, res: Response) => {
       message: 'Error while trying to get properties',
       error: error,
     });
+  }
+});
+
+// Chats CRUD endpoints using mockDb
+app.get('/api/pastChats', async (_req: Request, res: Response) => {
+  try {
+    const chats = await mockDb.getAllChats();
+    res.status(200).json({ success: true, data: chats });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: String(err) });
+  }
+});
+
+app.get('/api/pastChats/:id', async (req: Request, res: Response) => {
+  try {
+    const chat = await mockDb.getChatById(req.params.id);
+    if (!chat)
+      return res.status(404).json({ success: false, message: 'Not found' });
+    res.status(200).json({ success: true, data: chat });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: String(err) });
+  }
+});
+
+app.post('/api/saveChat', async (req: Request, res: Response) => {
+  try {
+    const payload = req.body;
+    // Minimal validation
+    if (!payload || !payload.id) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid payload' });
+    }
+    const saved = await mockDb.saveChat(payload);
+    res.status(201).json({ success: true, data: saved });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: String(err) });
+  }
+});
+
+app.put('/api/pastChats/:id', async (req: Request, res: Response) => {
+  try {
+    const updated = await mockDb.updateChat(req.params.id, req.body || {});
+    if (!updated)
+      return res.status(404).json({ success: false, message: 'Not found' });
+    res.status(200).json({ success: true, data: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: String(err) });
+  }
+});
+
+app.delete('/api/pastChats/:id', async (req: Request, res: Response) => {
+  try {
+    const ok = await mockDb.deleteChat(req.params.id);
+    if (!ok)
+      return res.status(404).json({ success: false, message: 'Not found' });
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: String(err) });
   }
 });
 

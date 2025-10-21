@@ -1,9 +1,14 @@
 import React from 'react';
 
+export interface Personality {
+  name: string;
+  image: string;
+}
+
 interface PersonalitySelectorProps {
-  personalities: string[];
+  personalities: Personality[];
   selectedPersonality: string;
-  onPersonalityChange: (personality: string) => void;
+  onPersonalityChange: (personalityName: string) => void;
 }
 
 const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
@@ -12,16 +17,25 @@ const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
   onPersonalityChange,
 }) => {
   return (
-    <select
-      value={selectedPersonality}
-      onChange={(e) => onPersonalityChange(e.target.value)}
-    >
-      {personalities.map((p) => (
-        <option key={p} value={p}>
-          {p}
-        </option>
-      ))}
-    </select>
+    <div className='personality-container'>
+      {personalities.map((person) => {
+        const isSelected = selectedPersonality === person.name;
+        return (
+          <button
+            key={person.name}
+            onClick={() => onPersonalityChange(person.name)}
+            className={`personality-card ${isSelected ? 'selected' : ''}`}
+          >
+            <img
+              src={person.image}
+              alt={person.name}
+              className='personality-image'
+            />
+            <span>{person.name}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 };
 
